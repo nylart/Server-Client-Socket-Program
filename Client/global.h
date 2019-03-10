@@ -10,9 +10,10 @@ const quint16 XML = 3;
 const quint16 XML_DEFAULT = 2;
 const quint16 WAIT_TIME = 3000;
 
+
 // Type of error
 enum ErrorType {
-    Format, Port, Address, ServerInvalid, XMLInvalid, Unconnected, FailedXML
+    Format, Port, Address, ServerInvalid, XMLInvalid, Unconnected, FailedXML, UnexistantXML
 };
 
 #endif // GLOBAL_H

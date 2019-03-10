@@ -1,6 +1,8 @@
 #include <QCoreApplication>
 #include <QFile>
 #include <QHostAddress>
+#include <QDir>
+#include <QFileDialog>
 #include <QXmlStreamReader>
 #include "validator.h"
 #include "global.h"
@@ -14,17 +16,24 @@ Validator::Validator(QObject *parent) : QObject(parent)
 // Verifies that the passed file name exists and is a XML
 bool Validator::IsValidXML(QString fileName){
     QFile xmlFile;
-
+    //QString path = QDir::currentPath() + "/";
+    //fileName = path + fileName;
+    qDebug() << fileName;
     xmlFile.setFileName(fileName);
-    logger.Write("Test");
-    // Try to open xml file, if it opens successfuly then close and return true
-    if(xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        xmlFile.close();
-        logger.Write("Opened");
-        return true;
+    if (xmlFile.exists()) {
+        logger.Write("File exists");
+        // Try to open xml file, if it opens successfuly then close and return true
+        if(xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            xmlFile.close();
+            logger.Write("Opened");
+            return true;
+        }
+        else {
+            return false;
+        }
     }
-    else {
-        logger.ThrowError(XMLInvalid);
+    else{
+        logger.ThrowError(UnexistantXML);
         return false;
     }
 }

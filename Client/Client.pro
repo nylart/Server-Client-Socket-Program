@@ -1,6 +1,7 @@
 QT -= gui
 QT += core
 QT += network
+QT += widgets
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -27,4 +28,5 @@ HEADERS += \
     client.h \
     validator.h
 
-DISTFILES +=
+DISTFILES += \
+    sample.xml

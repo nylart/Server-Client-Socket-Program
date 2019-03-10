@@ -27,5 +27,12 @@ void LogOutput::ThrowError(ErrorType errorType){
         case FailedXML:
             qDebug() << "ERROR: The XML failed to send.";
             break;
+        case XMLInvalid:
+            qDebug() << "ERROR: Invalid XML file";
+            break;
+        case UnexistantXML:
+            qDebug() << "ERROR: XML does not exist";
+        default:
+            break;
     }
 }
