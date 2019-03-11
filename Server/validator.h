@@ -3,6 +3,10 @@
 
 #include <QObject>
 #include <QHostAddress>
+#include <QCoreApplication>
+#include <QXmlStreamReader>
+#include <QFile>
+#include "logoutput.h"
 
 class Validator : public QObject
 {
@@ -12,10 +16,15 @@ public:
     bool IsValidArgument(int argc, char *argv[]);
     bool IsValidIPAddress(QString ipAddress);
     bool IsValidPort(qint16 port);
+    bool IsValidXML(QString fileName);
+    bool IsValidXML(QByteArray xmlBytes);
 
 signals:
 
 public slots:
+
+private:
+    LogOutput logger;
 };
 
 #endif // VALIDATOR_H

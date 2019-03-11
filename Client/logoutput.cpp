@@ -5,6 +5,7 @@ LogOutput::LogOutput(QObject *parent) : QObject(parent)
 
 }
 
+// Output the passed message
 void LogOutput::Write(QString message){
     qDebug() << message;
 }

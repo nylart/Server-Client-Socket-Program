@@ -1,4 +1,3 @@
-#include <QCoreApplication>
 #include "validator.h"
 #include "global.h"
 #include "logoutput.h"
@@ -7,6 +6,41 @@ Validator::Validator(QObject *parent) : QObject(parent)
 {
 
 }
+
+// Need to figure out a better way to go about this
+bool Validator::IsValidXML(QByteArray xmlBytes){
+    QXmlStreamReader xml(xmlBytes);
+    if (xml.hasError()){
+        return false;
+    }
+    return true;
+}
+
+// Verifies that the passed file name exists and is a XML
+bool Validator::IsValidXML(QString fileName){
+    QFile xmlFile;
+    //QString path = QDir::currentPath() + "/";
+    //fileName = path + fileName;
+    qDebug() << fileName;
+    xmlFile.setFileName(fileName);
+    if (xmlFile.exists()) {
+        logger.Write("File exists");
+        // Try to open xml file, if it opens successfuly then close and return true
+        if(xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            xmlFile.close();
+            logger.Write("Opened");
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+    else{
+        logger.ThrowError(UnexistantXML);
+        return false;
+    }
+}
+
 
 
 // Check if the passed arguments are expected.

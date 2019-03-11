@@ -12,10 +12,10 @@ MAKEFILE      = Makefile
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_NETWORK_LIB -DQT_CORE_LIB
+DEFINES       = -DQT_DEPRECATED_WARNINGS -DQT_QML_DEBUG -DQT_NETWORK_LIB -DQT_XML_LIB -DQT_CORE_LIB
 CFLAGS        = -pipe -g -Wall -W -D_REENTRANT -fPIC $(DEFINES)
 CXXFLAGS      = -pipe -g -std=gnu++11 -Wall -W -D_REENTRANT -fPIC $(DEFINES)
-INCPATH       = -I../Server -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
+INCPATH       = -I../Server -I. -isystem /usr/include/x86_64-linux-gnu/qt5 -isystem /usr/include/x86_64-linux-gnu/qt5/QtNetwork -isystem /usr/include/x86_64-linux-gnu/qt5/QtXml -isystem /usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++
 QMAKE         = /usr/lib/qt5/bin/qmake
 DEL_FILE      = rm -f
 CHK_DIR_EXISTS= test -d
@@ -38,7 +38,7 @@ DISTNAME      = Server1.0.0
 DISTDIR = /home/parallels/Documents/Konami-Socket-Program/build-Server-Desktop-Debug/.tmp/Server1.0.0
 LINK          = g++
 LFLAGS        = 
-LIBS          = $(SUBLIBS) -lQt5Network -lQt5Core -lpthread 
+LIBS          = $(SUBLIBS) -lQt5Network -lQt5Xml -lQt5Core -lpthread 
 AR            = ar cqs
 RANLIB        = 
 SED           = sed
@@ -53,16 +53,24 @@ OBJECTS_DIR   = ./
 SOURCES       = ../Server/main.cpp \
 		../Server/server.cpp \
 		../Server/logoutput.cpp \
-		../Server/validator.cpp moc_server.cpp \
+		../Server/validator.cpp \
+		../Server/receiver.cpp \
+		../Server/xmlprocessor.cpp moc_server.cpp \
 		moc_logoutput.cpp \
-		moc_validator.cpp
+		moc_validator.cpp \
+		moc_receiver.cpp \
+		moc_xmlprocessor.cpp
 OBJECTS       = main.o \
 		server.o \
 		logoutput.o \
 		validator.o \
+		receiver.o \
+		xmlprocessor.o \
 		moc_server.o \
 		moc_logoutput.o \
-		moc_validator.o
+		moc_validator.o \
+		moc_receiver.o \
+		moc_xmlprocessor.o
 DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/unix.conf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/common/linux.conf \
@@ -138,10 +146,14 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../Server/Server.pro ../Server/server.h \
 		../Server/global.h \
 		../Server/logoutput.h \
-		../Server/validator.h ../Server/main.cpp \
+		../Server/validator.h \
+		../Server/receiver.h \
+		../Server/xmlprocessor.h ../Server/main.cpp \
 		../Server/server.cpp \
 		../Server/logoutput.cpp \
-		../Server/validator.cpp
+		../Server/validator.cpp \
+		../Server/receiver.cpp \
+		../Server/xmlprocessor.cpp
 QMAKE_TARGET  = Server
 DESTDIR       = 
 TARGET        = Server
@@ -227,6 +239,7 @@ Makefile: ../Server/Server.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/q
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		../Server/Server.pro \
 		/usr/lib/x86_64-linux-gnu/libQt5Network.prl \
+		/usr/lib/x86_64-linux-gnu/libQt5Xml.prl \
 		/usr/lib/x86_64-linux-gnu/libQt5Core.prl
 	$(QMAKE) -o Makefile ../Server/Server.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf:
@@ -303,6 +316,7 @@ Makefile: ../Server/Server.pro /usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++/q
 /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf:
 ../Server/Server.pro:
 /usr/lib/x86_64-linux-gnu/libQt5Network.prl:
+/usr/lib/x86_64-linux-gnu/libQt5Xml.prl:
 /usr/lib/x86_64-linux-gnu/libQt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ../Server/Server.pro -spec linux-g++ CONFIG+=debug CONFIG+=qml_debug
@@ -319,8 +333,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../Server/server.h ../Server/global.h ../Server/logoutput.h ../Server/validator.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../Server/main.cpp ../Server/server.cpp ../Server/logoutput.cpp ../Server/validator.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../Server/server.h ../Server/global.h ../Server/logoutput.h ../Server/validator.h ../Server/receiver.h ../Server/xmlprocessor.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../Server/main.cpp ../Server/server.cpp ../Server/logoutput.cpp ../Server/validator.cpp ../Server/receiver.cpp ../Server/xmlprocessor.cpp $(DISTDIR)/
 
 
 clean: compiler_clean 
@@ -352,24 +366,40 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -std=gnu++11 -Wall -W -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_server.cpp moc_logoutput.cpp moc_validator.cpp
+compiler_moc_header_make_all: moc_server.cpp moc_logoutput.cpp moc_validator.cpp moc_receiver.cpp moc_xmlprocessor.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_server.cpp moc_logoutput.cpp moc_validator.cpp
-moc_server.cpp: ../Server/server.h \
+	-$(DEL_FILE) moc_server.cpp moc_logoutput.cpp moc_validator.cpp moc_receiver.cpp moc_xmlprocessor.cpp
+moc_server.cpp: ../Server/logoutput.h \
+		../Server/global.h \
+		../Server/server.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/Server -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Server/server.h -o moc_server.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/Server -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Server/server.h -o moc_server.cpp
 
 moc_logoutput.cpp: ../Server/global.h \
 		../Server/logoutput.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/Server -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Server/logoutput.h -o moc_logoutput.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/Server -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Server/logoutput.h -o moc_logoutput.cpp
 
-moc_validator.cpp: ../Server/validator.h \
+moc_validator.cpp: ../Server/logoutput.h \
+		../Server/global.h \
+		../Server/validator.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/Server -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Server/validator.h -o moc_validator.cpp
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/Server -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Server/validator.h -o moc_validator.cpp
+
+moc_receiver.cpp: ../Server/logoutput.h \
+		../Server/global.h \
+		../Server/receiver.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/Server -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Server/receiver.h -o moc_receiver.cpp
+
+moc_xmlprocessor.cpp: ../Server/xmlprocessor.h \
+		moc_predefs.h \
+		/usr/lib/qt5/bin/moc
+	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/Server -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../Server/xmlprocessor.h -o moc_xmlprocessor.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
@@ -385,13 +415,14 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean
 
 main.o: ../Server/main.cpp ../Server/global.h \
 		../Server/server.h \
-		../Server/validator.h \
-		../Server/logoutput.h
+		../Server/logoutput.h \
+		../Server/validator.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../Server/main.cpp
 
 server.o: ../Server/server.cpp ../Server/server.h \
+		../Server/logoutput.h \
 		../Server/global.h \
-		../Server/logoutput.h
+		../Server/receiver.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o server.o ../Server/server.cpp
 
 logoutput.o: ../Server/logoutput.cpp ../Server/logoutput.h \
@@ -399,9 +430,21 @@ logoutput.o: ../Server/logoutput.cpp ../Server/logoutput.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o logoutput.o ../Server/logoutput.cpp
 
 validator.o: ../Server/validator.cpp ../Server/validator.h \
-		../Server/global.h \
-		../Server/logoutput.h
+		../Server/logoutput.h \
+		../Server/global.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o validator.o ../Server/validator.cpp
+
+receiver.o: ../Server/receiver.cpp ../Server/receiver.h \
+		../Server/logoutput.h \
+		../Server/global.h \
+		../Server/xmlprocessor.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o receiver.o ../Server/receiver.cpp
+
+xmlprocessor.o: ../Server/xmlprocessor.cpp ../Server/xmlprocessor.h \
+		../Server/validator.h \
+		../Server/logoutput.h \
+		../Server/global.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o xmlprocessor.o ../Server/xmlprocessor.cpp
 
 moc_server.o: moc_server.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_server.o moc_server.cpp
@@ -411,6 +454,12 @@ moc_logoutput.o: moc_logoutput.cpp
 
 moc_validator.o: moc_validator.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_validator.o moc_validator.cpp
+
+moc_receiver.o: moc_receiver.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_receiver.o moc_receiver.cpp
+
+moc_xmlprocessor.o: moc_xmlprocessor.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_xmlprocessor.o moc_xmlprocessor.cpp
 
 ####### Install
 

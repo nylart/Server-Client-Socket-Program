@@ -5,6 +5,7 @@
 #include <QDebug>
 #include <QTcpServer>
 #include <QTcpSocket>
+#include "logoutput.h"
 
 class Server : public QObject
 {
@@ -16,6 +17,7 @@ public:
 signals:
 
 public slots:
+    void newConnection(qintptr  socketPtr);
 
 protected:
 
@@ -23,6 +25,7 @@ protected:
 
 private:
     QTcpServer *server;
+    LogOutput logger;
 };
 
 #endif // SERVER_H

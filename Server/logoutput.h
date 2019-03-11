@@ -11,6 +11,7 @@ class LogOutput : public QObject
 public:
     explicit LogOutput(QObject *parent = nullptr);
     void ThrowError(ErrorType errorType);
+    void Write(QString message);
 signals:
 
 public slots:

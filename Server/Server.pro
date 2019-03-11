@@ -1,6 +1,8 @@
 QT -= gui
 QT += core
 QT += network
+QT += xml
+#QT += xmlpatterns
 
 CONFIG += c++11 console
 CONFIG -= app_bundle
@@ -19,10 +21,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp \
     server.cpp \
     logoutput.cpp \
-    validator.cpp
+    validator.cpp \
+    receiver.cpp \
+    xmlprocessor.cpp
 
 HEADERS += \
     server.h \
     global.h \
     logoutput.h \
-    validator.h
+    validator.h \
+    receiver.h \
+    xmlprocessor.h

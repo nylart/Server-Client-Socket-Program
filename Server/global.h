@@ -9,7 +9,7 @@ const quint16 PORT = 2;
 
 // Type of error
 enum ErrorType {
-    Format, Port, Address, ServerInvalid
+    Format, Port, Address, ServerInvalid, UnexistantXML,InvalidXML
 };
 
 

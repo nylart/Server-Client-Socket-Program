@@ -1,11 +1,14 @@
 #include "server.h"
 #include "global.h"
 #include "logoutput.h"
+#include "receiver.h"
 
 Server::Server(QObject *parent) : QObject(parent)
 {
 
 }
+
+// Start the server and listen to the passed IP address and port.
 void Server::Start(QHostAddress *ipAddress, quint16 port){
     server = new QTcpServer(this);
     LogOutput logger;
@@ -21,4 +24,12 @@ void Server::Start(QHostAddress *ipAddress, quint16 port){
     else {
         qDebug() << "Server started.";
     }
+}
+
+
+//
+void Server::newConnection(qintptr  socketPtr){
+    Receiver receiver;
+    receiver.ConnectSocket(socketPtr);
+    logger.Write("New socket connected");
 }

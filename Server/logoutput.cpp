@@ -5,6 +5,10 @@ LogOutput::LogOutput(QObject *parent) : QObject(parent)
 
 }
 
+// Output the passed message
+void LogOutput::Write(QString message){
+    qDebug() << message;
+}
 
 // Throw an error message dependent on error type
 void LogOutput::ThrowError(ErrorType errorType){
@@ -20,6 +24,12 @@ void LogOutput::ThrowError(ErrorType errorType){
             break;
         case ServerInvalid:
             qDebug() << "ERROR: Server could not start. Make sure you are using a valid IP address and port.";
+            break;
+        case UnexistantXML:
+            qDebug() << "ERROR: XML does not exist.";
+        case InvalidXML:
+            qDebug() << "ERROR: The file is invalid. Must be a non-empty XML.";
+        default:
             break;
     }
 }
