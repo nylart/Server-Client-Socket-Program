@@ -6,26 +6,24 @@
 
 // Start the server with the default address and port.
 void StartDefaultServer(){
-    // Create a QHostAddress from the default address
-    QHostAddress *ipAddress = new QHostAddress(DEFAULT);
 
+    qDebug() << "StartDefaultServer";
     // Start the server
     Server server;
-    server.Start(ipAddress, DEFAULTPORT);
+    server.StartServer(DEFAULTIP, DEFAULTPORT);
 }
 
 // Start the server with the passed address and port.
 void StartServer(char *argAddress, char *argPort){
+    qDebug() << "StartServer";
     // Convert the passed address and port to QString and qint16
-    QString addrString = argAddress;
+    QString address = argAddress;
     qint16 portInt = atoi(argPort);
 
-    // Create a QHostAddress from the default address
-    QHostAddress *ipAddress = new QHostAddress(addrString);
 
     // Start the server
     Server server;
-    server.Start(ipAddress, portInt);
+    server.StartServer(address, portInt);
 }
 
 

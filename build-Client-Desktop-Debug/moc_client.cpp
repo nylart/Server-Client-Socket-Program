@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_Client_t {
     QByteArrayData data[7];
-    char stringdata0[63];
+    char stringdata0[60];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,16 +32,16 @@ struct qt_meta_stringdata_Client_t {
 static const qt_meta_stringdata_Client_t qt_meta_stringdata_Client = {
     {
 QT_MOC_LITERAL(0, 0, 6), // "Client"
-QT_MOC_LITERAL(1, 7, 9), // "Connected"
+QT_MOC_LITERAL(1, 7, 9), // "connected"
 QT_MOC_LITERAL(2, 17, 0), // ""
-QT_MOC_LITERAL(3, 18, 12), // "Disconnected"
-QT_MOC_LITERAL(4, 31, 9), // "OutputXML"
-QT_MOC_LITERAL(5, 41, 15), // "SendXMLComplete"
-QT_MOC_LITERAL(6, 57, 5) // "bytes"
+QT_MOC_LITERAL(3, 18, 12), // "disconnected"
+QT_MOC_LITERAL(4, 31, 9), // "readyRead"
+QT_MOC_LITERAL(5, 41, 12), // "bytesWritten"
+QT_MOC_LITERAL(6, 54, 5) // "bytes"
 
     },
-    "Client\0Connected\0\0Disconnected\0OutputXML\0"
-    "SendXMLComplete\0bytes"
+    "Client\0connected\0\0disconnected\0readyRead\0"
+    "bytesWritten\0bytes"
 };
 #undef QT_MOC_LITERAL
 
@@ -79,10 +79,10 @@ void Client::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void
         Client *_t = static_cast<Client *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->Connected(); break;
-        case 1: _t->Disconnected(); break;
-        case 2: _t->OutputXML(); break;
-        case 3: _t->SendXMLComplete((*reinterpret_cast< qint64(*)>(_a[1]))); break;
+        case 0: _t->connected(); break;
+        case 1: _t->disconnected(); break;
+        case 2: _t->readyRead(); break;
+        case 3: _t->bytesWritten((*reinterpret_cast< qint64(*)>(_a[1]))); break;
         default: ;
         }
     }

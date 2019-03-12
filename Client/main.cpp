@@ -9,9 +9,12 @@
 
 void SendXMLData(QString ipAddress, quint16 port, QString fileName){
     LogOutput logger;
-
+    logger.Write("SendXMLData: " + ipAddress + ":" + QString::number(port));
     QFile xmlFile;
     QByteArray xmlBytes;
+
+    // Create a QHostAddress from the default address
+    //QHostAddress *ipAddress = new QHostAddress(address);
 
     xmlFile.setFileName(fileName);
 
@@ -19,7 +22,7 @@ void SendXMLData(QString ipAddress, quint16 port, QString fileName){
     if(xmlFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         xmlBytes = xmlFile.readAll();
         xmlFile.close();
-
+        logger.Write("SendXMLData -> about to start new client and open socket");
         Client * client = new Client();
         client->OpenSocket(ipAddress, port);
 
@@ -52,7 +55,6 @@ int main(int argc, char *argv[])
                 xmlFileName = QString(argv[XML_DEFAULT]);
                 if(validator.IsValidXML(xmlFileName)){
                     // Send XML Data to server
-                    qDebug() << "2";
                     SendXMLData(DEFAULTIP, DEFAULTPORT, xmlFileName);
                 }
                 else

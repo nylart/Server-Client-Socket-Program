@@ -12,15 +12,15 @@ class Server : public QObject
     Q_OBJECT
 public:
     explicit Server(QObject *parent = nullptr);
-    void Start(QHostAddress *ipAddress, quint16 port);
+    void StartServer(QString address, quint16 port);
 
 signals:
 
 public slots:
-    void newConnection(qintptr  socketPtr);
+
 
 protected:
-
+    void incomingConnection(qintptr  socketDescriptor);
 
 
 private:

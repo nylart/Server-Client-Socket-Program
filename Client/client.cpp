@@ -6,6 +6,7 @@
 
 Client::Client(QObject *parent) : QObject(parent)
 {
+    logger.Write("Client initialized");
     socket = new QTcpSocket();
 }
 
@@ -14,16 +15,18 @@ void Client::OpenSocket(QString ipAddress, quint16 port){
 
     socket->connectToHost(ipAddress, port);
 
-    if(socket->waitForConnected(WAIT_TIME)) {
-
-        connect(socket, SIGNAL(Connected()), this, SLOT(Connected()));
-        connect(socket, SIGNAL(Disconnected()), this, SLOT(Disconnected()));
-        connect(socket, SIGNAL(OutputXML()), this, SLOT(OutputXML()));
-        connect(socket, SIGNAL(SendXMLComplete(qint64)), this, SLOT(SendXMLComplete(qint64)));
+    if(socket->waitForConnected(3000)) {
+        logger.Write("Socket waiting for connection");
+        connect(socket, SIGNAL(connected()), this, SLOT(Connected()));
+        connect(socket, SIGNAL(disconnected()), this, SLOT(Disconnected()));
+        connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
+        connect(socket, SIGNAL(bytesWritten(qint64)), this, SLOT(bytesWritten(qint64)));
 
     }
-    else
+    else{
         logger.ThrowError(Unconnected);
+        qDebug() << socket->error();
+    }
 }
 
 // Write the XML to the socket if the socket is open
@@ -38,21 +41,21 @@ bool Client::SendXML(QByteArray xmlBytes){
 }
 
 // On Connected
-void Client::Connected() {
+void Client::connected() {
    logger.Write("Connected to socket.");
 }
 
 // On Disconnected
-void Client::Disconnected() {
+void Client::disconnected() {
     logger.Write("Disconnected from socket");
 }
 
 // Output the XML data
-void Client::OutputXML() {
+void Client::readyRead() {
     logger.Write(socket->readAll());
 }
 
 // On Complete
-void Client::SendXMLComplete(qint64 bytes) {
+void Client::bytesWritten(qint64 bytes) {
     logger.Write("XML has successfully been sent to server");
 }

@@ -2,6 +2,7 @@
 #define CLIENT_H
 
 #include <QObject>
+#include <QHostAddress>
 #include <QTcpSocket>
 #include "logoutput.h"
 
@@ -16,10 +17,10 @@ public:
 signals:
 
 public slots:
-    void Connected();
-    void Disconnected();
-    void OutputXML();
-    void SendXMLComplete(qint64 bytes);
+    void connected();
+    void disconnected();
+    void readyRead();
+    void bytesWritten(qint64 bytes);
 
 private:
     QTcpSocket * socket;
