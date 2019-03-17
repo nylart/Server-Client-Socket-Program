@@ -11,6 +11,7 @@
 #include "server.h"
 #include "validator.h"
 #include "client.h"
+//#include "tests/tests.h"
 
 namespace Ui {
 class MainWindow;
@@ -29,6 +30,8 @@ public slots:
 
     void do_UpdateServerText(QString message);
 
+    void do_UpdateProgressBar(int value);
+
 private slots:
     void on_DefaultRadioButton_Server_clicked();
 
@@ -44,12 +47,16 @@ private slots:
 
     void on_StartClientButton_clicked();
 
+    void on_UnitTestStartButton_clicked();
+
+    void on_UnitTestStopButton_clicked();
 
 
 private:
     Ui::MainWindow *ui;
     Server server;
     Validator validator;
+    //Tests tests;
 
     void HideCustomBoxes();
     bool CheckCustomFields(QString type);

@@ -4,6 +4,7 @@
 Client::Client(QObject *parent) : QObject(parent)
 {
     socket = new QTcpSocket();
+    isConnected = false;
 }
 
 // Purpose: Start the socket and connect to the passed IP Address and port
@@ -13,6 +14,7 @@ void Client::StartSocket(QString ipAddress, quint16 port) {
     socket->connectToHost(ipAddress, port);
 
     if(socket->waitForConnected(3000)) {
+        isConnected = true;
         connect(socket, SIGNAL(connected()), this, SLOT(connected()));
         connect(socket, SIGNAL(disconnected()), this, SLOT(disconnected()));
         connect(socket, SIGNAL(readyRead()), this, SLOT(readyRead()));
@@ -22,16 +24,23 @@ void Client::StartSocket(QString ipAddress, quint16 port) {
         WriteToUI(SOCKET_CONNECTION_ERROR);
 }
 
+// Purpose: Returns whether or not the socket is connected.
+bool Client::IsSocketConnected(){
+    return isConnected;
+}
+
 // Purpose: Emit the passed message to the UI's Client text area
 void Client::WriteToUI(QString msg){
     emit updateClientText(msg);
 }
 
 void Client::connected() {
+    isConnected = true;
    WriteToUI("Connected to socket.");
 }
 
 void Client::disconnected() {
+    isConnected = false;
    WriteToUI("Disconnected from socket");
 }
 

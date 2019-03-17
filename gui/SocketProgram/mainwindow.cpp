@@ -20,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     // Listen for when the server emits messages to write to the server text area
     connect(&server, SIGNAL(updateServerText(QString)), this, SLOT(do_UpdateServerText(QString)));
 
+    connect(&validator, SIGNAL(updateServerText(QString)), this, SLOT(do_UpdateServerText(QString)));
+    connect(&validator, SIGNAL(updateClientText(QString)), this, SLOT(do_UpdateClientText(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -198,26 +200,22 @@ bool MainWindow::CheckCustomFields(QString type){
         port64 = ui->PortBox_Client->text().toLongLong();
     }
 
-    // If the text is empty or not valid, throw error
-    if(address.isEmpty() || !validator.IsValidIPAddress(address)){
-        if(type == SERVER)
-            do_UpdateServerText(INVALID_ADDRESS_ERROR);
-        else if (type == CLIENT)
-            do_UpdateClientText(INVALID_ADDRESS_ERROR);
-
-        return false;
-    }
-
-    // If the port is invalid, throw an error.
-    if(!validator.IsValidPort(port64)){
-        if(type == SERVER)
-            do_UpdateServerText(INVALID_PORT_ERROR);
-        else if (type == CLIENT)
-            do_UpdateClientText(INVALID_PORT_ERROR);
-
-        return false;
-    }
-
-    // If we made it this far, then allow the program to try to start the server next
-    return true;
+    return validator.CheckCustomFields(type, address, port64);
 }
+
+
+// ================================================================================ Unit Test Related
+
+void MainWindow::on_UnitTestStartButton_clicked(){
+    //qDebug() << "Unit test button clicked";
+    //tests.run();
+}
+
+void MainWindow::on_UnitTestStopButton_clicked(){
+
+}
+
+void MainWindow::do_UpdateProgressBar(int value){
+    ui->UnitTestProgressBar->setValue(value);
+}
+

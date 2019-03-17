@@ -9,6 +9,10 @@ QT       += network
 QT       += xmlpatterns
 QT       += xml
 
+
+QT += testlib
+CONFIG += qt warn_on depend_includepath testcase
+
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = SocketProgram
@@ -27,13 +31,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp \
+    main.cpp \
+    mainwindow.cpp \
     server.cpp \
     validator.cpp \
     receiver.cpp \
     xmlprocessor.cpp \
     client.cpp
+
 
 HEADERS += \
         mainwindow.h \
@@ -46,3 +51,8 @@ HEADERS += \
 
 FORMS += \
         mainwindow.ui
+
+DISTFILES += \
+    ../default.pri
+
+

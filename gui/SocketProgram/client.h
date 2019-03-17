@@ -11,6 +11,7 @@ public:
     explicit Client(QObject *parent = 0);
     void StartSocket(QString ipAddress, quint16 port);
     bool SendXML(QByteArray xmlBytes);
+    bool IsSocketConnected();
 
 signals:
     void updateClientText(QString message);
@@ -26,6 +27,7 @@ protected:
 
 private:
     QTcpSocket *socket;
+    bool isConnected;
 
 };
 

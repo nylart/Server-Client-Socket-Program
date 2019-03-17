@@ -17,10 +17,14 @@ public:
     bool IsValidPort(quint64 port);
     bool IsValidXML(QString fileName);
     bool IsValidXML(QByteArray xmlBytes);
+    bool CheckCustomFields(QString type, QString addressField, quint64 port64);
 
 signals:
+    void updateServerText(QString message);
+    void updateClientText(QString message);
 
-public slots:
+protected slots:
+    void WriteToUI(QString type, QString msg);
 
 private:
 };
