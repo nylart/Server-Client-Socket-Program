@@ -7,7 +7,6 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-#include "logoutput.h"
 #include "global.h"
 #include "server.h"
 #include "validator.h"
@@ -25,6 +24,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void do_UpdateClientText(QString message);
+
+    void do_UpdateServerText(QString message);
+
 private slots:
     void on_DefaultRadioButton_Server_clicked();
 
@@ -40,13 +44,10 @@ private slots:
 
     void on_StartClientButton_clicked();
 
-    void on_WriteToClient(QString message);
 
-    void on_WriteToServer(QString message);
 
 private:
     Ui::MainWindow *ui;
-    LogOutput logger;
     Server server;
     Validator validator;
 

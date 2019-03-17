@@ -7,9 +7,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // Create the xml processor
-    LogOutput *logger = new LogOutput();
-
     // Initial Setup
     HideCustomBoxes();
 
@@ -19,12 +16,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->CustomRadioButton_Client, SIGNAL(clicked()), this, SLOT(on_CustomRadioButton_Client_clicked()));
     connect(ui->CustomRadioButton_Server, SIGNAL(clicked()), this, SLOT(on_CustomRadioButton_Server_clicked()));
     connect(ui->BrowseXMLButton, SIGNAL(pressed()), this, SLOT(on_BrowseXMLButton_clicked()));
-    connect(ui->StartClientButton, SIGNAL(clicked()), this, SLOT(on_StartClientButton_clicked()));
-    connect(ui->StartServerButton, SIGNAL(clicked()), this, SLOT(on_StartServerButton_clicked()));
 
-    // Listen for when the logger wants to send message to client and server
-    connect(logger, SIGNAL(SendMessageToUIServer(QString)), this, SLOT(on_WriteToServer(QString)));
-    connect(logger, SIGNAL(SendMessageToUIClient(QString)), this, SLOT(on_WriteToClient(QString)));
+    // Listen for when the server emits messages to write to the server text area
+    connect(&server, SIGNAL(updateServerText(QString)), this, SLOT(do_UpdateServerText(QString)));
+
 }
 
 MainWindow::~MainWindow()
@@ -32,32 +27,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::HideCustomBoxes(){
-    ui->IPAddressBox_Client->hide();
-    ui->PortBox_Client->hide();
-    ui->IPAddressBox_Server->hide();
-    ui->PortBox_Server->hide();
+// ================================================================================ Update Text Area Related Signals
+
+// Callback: The client has emitted a message and this function is the slot.
+// Purpose: Write out to the text area in the client tab the passed message.
+void MainWindow::do_UpdateClientText(QString message){
+    ui->TextArea_Client->append(message + "\n");
 }
 
-void MainWindow::on_WriteToClient(QString message){
-    ui->TextArea_Client->append(message);
+// Callback: The server has emitted a message and this function is the slot.
+// Purpose: Write out to the text area in the server tab the passed message.
+void MainWindow::do_UpdateServerText(QString message){
+    ui->TextArea_Server->append(message + "\n");
 }
 
-void MainWindow::on_WriteToServer(QString message){
-    ui->TextArea_Server->append(message);
-}
+// ================================================================================ Client Related Signals
 
 // Callback: Default radio button in client tab has been clicked.
 // Purpose: Hide the IP address and port boxes, since they're only used for custom
 void MainWindow::on_DefaultRadioButton_Client_clicked(){
     ui->CustomRadioButton_Client->setChecked(false);
-    HideCustomBoxes();
-}
-
-// Callback: Default radio button in server tab has been clicked.
-// Purpose: Hide the IP address and port boxes, since they're only used for custom
-void MainWindow::on_DefaultRadioButton_Server_clicked(){
-    ui->CustomRadioButton_Server->setChecked(false);
     HideCustomBoxes();
 }
 
@@ -67,14 +56,6 @@ void MainWindow::on_CustomRadioButton_Client_clicked(){
     ui->DefaultRadioButton_Client->setChecked(false);
     ui->IPAddressBox_Client->show();
     ui->PortBox_Client->show();
-}
-
-// Callback: Custom radio button in serber tab has been clicked.
-// Purpose: Show the IP address and port boxes, since they're used for custom
-void MainWindow::on_CustomRadioButton_Server_clicked(){
-    ui->DefaultRadioButton_Server->setChecked(false);
-    ui->IPAddressBox_Server->show();
-    ui->PortBox_Server->show();
 }
 
 // Callback: Browse XML Button has been clicked.
@@ -125,34 +106,55 @@ void MainWindow::on_StartClientButton_clicked(){
             Client *client = new Client();
             client->StartSocket(ipAddress, port);
 
+            // Listen to the client to transmit any incoming messages
+            connect(client, SIGNAL(updateClientText(QString)), this, SLOT(do_UpdateClientText(QString)));
+
             // If we can't write the xml bytes to the client, then throw an error
             if(!client->SendXML(xmlBytes)) {
-                logger.ThrowError(SocketWrite);
+                do_UpdateClientText(SOCKET_WRITE_ERROR);
                 return;
             }
         }
         else{
             // The file could not open, so throw an error
-            logger.ThrowError(InvalidXML);
+            do_UpdateClientText(INVALID_XML_ERROR);
             return;
         }
     }
     else {
         // The file is empty, so throw an error
-        logger.ThrowError(InvalidXML);
+        do_UpdateClientText(INVALID_XML_ERROR);
         return;
     }
+}
+
+// ================================================================================ Server Related Signals
+
+// Callback: Default radio button in server tab has been clicked.
+// Purpose: Hide the IP address and port boxes, since they're only used for custom
+void MainWindow::on_DefaultRadioButton_Server_clicked(){
+    ui->CustomRadioButton_Server->setChecked(false);
+    HideCustomBoxes();
+}
+
+
+// Callback: Custom radio button in serber tab has been clicked.
+// Purpose: Show the IP address and port boxes, since they're used for custom
+void MainWindow::on_CustomRadioButton_Server_clicked(){
+    ui->DefaultRadioButton_Server->setChecked(false);
+    ui->IPAddressBox_Server->show();
+    ui->PortBox_Server->show();
 }
 
 // Callback: Start Server Button has been clicked.
 // Purpose: Check if the user has selected default or custom, then try to start the server.
 void MainWindow::on_StartServerButton_clicked(){
-
     // If the custom radio button is checked,
     if(ui->CustomRadioButton_Server->isChecked()){
         // Check the IP address and port fields to make sure they're not empty.
         if(CheckCustomFields(SERVER)){
             QString ipAddress = ui->IPAddressBox_Server->text();
+            quint64 port64 = ui->PortBox_Server->text().toLongLong();
             quint16 port = ui->PortBox_Server->text().toUShort();
 
             // Try to start a server with passed ip address and port
@@ -164,6 +166,18 @@ void MainWindow::on_StartServerButton_clicked(){
         // Try to start a server with default ip address and port
         server.StartServer(DEFAULT_IP, DEFAULT_PORT);
     }
+}
+
+
+// ================================================================================ Custom Fields Related
+
+// Purpose: Hides the custom field boxes such as IP Address
+// and Port in both client and server tabs
+void MainWindow::HideCustomBoxes(){
+    ui->IPAddressBox_Client->hide();
+    ui->PortBox_Client->hide();
+    ui->IPAddressBox_Server->hide();
+    ui->PortBox_Server->hide();
 }
 
 
@@ -186,13 +200,21 @@ bool MainWindow::CheckCustomFields(QString type){
 
     // If the text is empty or not valid, throw error
     if(address.isEmpty() || !validator.IsValidIPAddress(address)){
-        logger.ThrowError(Address);
+        if(type == SERVER)
+            do_UpdateServerText(INVALID_ADDRESS_ERROR);
+        else if (type == CLIENT)
+            do_UpdateClientText(INVALID_ADDRESS_ERROR);
+
         return false;
     }
 
     // If the port is invalid, throw an error.
     if(!validator.IsValidPort(port64)){
-        logger.ThrowError(Port);
+        if(type == SERVER)
+            do_UpdateServerText(INVALID_PORT_ERROR);
+        else if (type == CLIENT)
+            do_UpdateClientText(INVALID_PORT_ERROR);
+
         return false;
     }
 

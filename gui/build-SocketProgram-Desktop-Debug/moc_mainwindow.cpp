@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
     QByteArrayData data[12];
-    char stringdata0[285];
+    char stringdata0[291];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,27 +32,28 @@ struct qt_meta_stringdata_MainWindow_t {
 static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
     {
 QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
-QT_MOC_LITERAL(1, 11, 36), // "on_DefaultRadioButton_Server_..."
-QT_MOC_LITERAL(2, 48, 0), // ""
-QT_MOC_LITERAL(3, 49, 36), // "on_DefaultRadioButton_Client_..."
-QT_MOC_LITERAL(4, 86, 35), // "on_CustomRadioButton_Server_c..."
-QT_MOC_LITERAL(5, 122, 35), // "on_CustomRadioButton_Client_c..."
-QT_MOC_LITERAL(6, 158, 26), // "on_BrowseXMLButton_clicked"
-QT_MOC_LITERAL(7, 185, 28), // "on_StartServerButton_clicked"
-QT_MOC_LITERAL(8, 214, 28), // "on_StartClientButton_clicked"
-QT_MOC_LITERAL(9, 243, 16), // "on_WriteToClient"
-QT_MOC_LITERAL(10, 260, 7), // "message"
-QT_MOC_LITERAL(11, 268, 16) // "on_WriteToServer"
+QT_MOC_LITERAL(1, 11, 19), // "do_UpdateClientText"
+QT_MOC_LITERAL(2, 31, 0), // ""
+QT_MOC_LITERAL(3, 32, 7), // "message"
+QT_MOC_LITERAL(4, 40, 19), // "do_UpdateServerText"
+QT_MOC_LITERAL(5, 60, 36), // "on_DefaultRadioButton_Server_..."
+QT_MOC_LITERAL(6, 97, 36), // "on_DefaultRadioButton_Client_..."
+QT_MOC_LITERAL(7, 134, 35), // "on_CustomRadioButton_Server_c..."
+QT_MOC_LITERAL(8, 170, 35), // "on_CustomRadioButton_Client_c..."
+QT_MOC_LITERAL(9, 206, 26), // "on_BrowseXMLButton_clicked"
+QT_MOC_LITERAL(10, 233, 28), // "on_StartServerButton_clicked"
+QT_MOC_LITERAL(11, 262, 28) // "on_StartClientButton_clicked"
 
     },
-    "MainWindow\0on_DefaultRadioButton_Server_clicked\0"
-    "\0on_DefaultRadioButton_Client_clicked\0"
+    "MainWindow\0do_UpdateClientText\0\0message\0"
+    "do_UpdateServerText\0"
+    "on_DefaultRadioButton_Server_clicked\0"
+    "on_DefaultRadioButton_Client_clicked\0"
     "on_CustomRadioButton_Server_clicked\0"
     "on_CustomRadioButton_Client_clicked\0"
     "on_BrowseXMLButton_clicked\0"
     "on_StartServerButton_clicked\0"
-    "on_StartClientButton_clicked\0"
-    "on_WriteToClient\0message\0on_WriteToServer"
+    "on_StartClientButton_clicked"
 };
 #undef QT_MOC_LITERAL
 
@@ -70,17 +71,19 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   59,    2, 0x08 /* Private */,
-       3,    0,   60,    2, 0x08 /* Private */,
-       4,    0,   61,    2, 0x08 /* Private */,
-       5,    0,   62,    2, 0x08 /* Private */,
-       6,    0,   63,    2, 0x08 /* Private */,
-       7,    0,   64,    2, 0x08 /* Private */,
-       8,    0,   65,    2, 0x08 /* Private */,
-       9,    1,   66,    2, 0x08 /* Private */,
-      11,    1,   69,    2, 0x08 /* Private */,
+       1,    1,   59,    2, 0x0a /* Public */,
+       4,    1,   62,    2, 0x0a /* Public */,
+       5,    0,   65,    2, 0x08 /* Private */,
+       6,    0,   66,    2, 0x08 /* Private */,
+       7,    0,   67,    2, 0x08 /* Private */,
+       8,    0,   68,    2, 0x08 /* Private */,
+       9,    0,   69,    2, 0x08 /* Private */,
+      10,    0,   70,    2, 0x08 /* Private */,
+      11,    0,   71,    2, 0x08 /* Private */,
 
  // slots: parameters
+    QMetaType::Void, QMetaType::QString,    3,
+    QMetaType::Void, QMetaType::QString,    3,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -88,8 +91,6 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::QString,   10,
-    QMetaType::Void, QMetaType::QString,   10,
 
        0        // eod
 };
@@ -100,15 +101,15 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         MainWindow *_t = static_cast<MainWindow *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->on_DefaultRadioButton_Server_clicked(); break;
-        case 1: _t->on_DefaultRadioButton_Client_clicked(); break;
-        case 2: _t->on_CustomRadioButton_Server_clicked(); break;
-        case 3: _t->on_CustomRadioButton_Client_clicked(); break;
-        case 4: _t->on_BrowseXMLButton_clicked(); break;
-        case 5: _t->on_StartServerButton_clicked(); break;
-        case 6: _t->on_StartClientButton_clicked(); break;
-        case 7: _t->on_WriteToClient((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 8: _t->on_WriteToServer((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 0: _t->do_UpdateClientText((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 1: _t->do_UpdateServerText((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 2: _t->on_DefaultRadioButton_Server_clicked(); break;
+        case 3: _t->on_DefaultRadioButton_Client_clicked(); break;
+        case 4: _t->on_CustomRadioButton_Server_clicked(); break;
+        case 5: _t->on_CustomRadioButton_Client_clicked(); break;
+        case 6: _t->on_BrowseXMLButton_clicked(); break;
+        case 7: _t->on_StartServerButton_clicked(); break;
+        case 8: _t->on_StartClientButton_clicked(); break;
         default: ;
         }
     }

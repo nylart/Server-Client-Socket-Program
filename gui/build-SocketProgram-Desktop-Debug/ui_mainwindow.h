@@ -22,7 +22,6 @@
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QRadioButton>
 #include <QtWidgets/QScrollArea>
-#include <QtWidgets/QScrollBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
 #include <QtWidgets/QTextEdit>
@@ -46,7 +45,6 @@ public:
     QScrollArea *ScrollArea_Server;
     QWidget *scrollAreaWidgetContents_2;
     QTextEdit *TextArea_Server;
-    QScrollBar *verticalScrollBar;
     QWidget *ClientTab;
     QGroupBox *DesiredConnection_Client;
     QRadioButton *DefaultRadioButton_Client;
@@ -57,13 +55,13 @@ public:
     QScrollArea *ScrollArea_Client;
     QWidget *scrollAreaWidgetContents_3;
     QTextEdit *TextArea_Client;
-    QScrollBar *verticalScrollBar_2;
     QGroupBox *SendXMLArea;
     QPushButton *BrowseXMLButton;
     QLineEdit *xmlFileNameBox;
     QMenuBar *menuBar;
     QMenu *menuKonami_Socket_Program;
     QMenu *menuv1;
+    QMenu *menu_Tralyn_Le;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
 
@@ -109,12 +107,9 @@ public:
         scrollAreaWidgetContents_2->setGeometry(QRect(0, 0, 509, 349));
         TextArea_Server = new QTextEdit(scrollAreaWidgetContents_2);
         TextArea_Server->setObjectName(QStringLiteral("TextArea_Server"));
-        TextArea_Server->setGeometry(QRect(-7, -1, 521, 351));
-        TextArea_Server->setTextInteractionFlags(Qt::NoTextInteraction);
-        verticalScrollBar = new QScrollBar(scrollAreaWidgetContents_2);
-        verticalScrollBar->setObjectName(QStringLiteral("verticalScrollBar"));
-        verticalScrollBar->setGeometry(QRect(490, 0, 20, 351));
-        verticalScrollBar->setOrientation(Qt::Vertical);
+        TextArea_Server->setGeometry(QRect(0, -1, 511, 351));
+        TextArea_Server->setReadOnly(false);
+        TextArea_Server->setTextInteractionFlags(Qt::TextEditorInteraction);
         ScrollArea_Server->setWidget(scrollAreaWidgetContents_2);
         Tabs->addTab(ServerTab, QString());
         ClientTab = new QWidget();
@@ -149,11 +144,7 @@ public:
         scrollAreaWidgetContents_3->setGeometry(QRect(0, 0, 509, 349));
         TextArea_Client = new QTextEdit(scrollAreaWidgetContents_3);
         TextArea_Client->setObjectName(QStringLiteral("TextArea_Client"));
-        TextArea_Client->setGeometry(QRect(-7, -1, 521, 351));
-        verticalScrollBar_2 = new QScrollBar(scrollAreaWidgetContents_3);
-        verticalScrollBar_2->setObjectName(QStringLiteral("verticalScrollBar_2"));
-        verticalScrollBar_2->setGeometry(QRect(490, 0, 20, 351));
-        verticalScrollBar_2->setOrientation(Qt::Vertical);
+        TextArea_Client->setGeometry(QRect(0, -1, 511, 351));
         ScrollArea_Client->setWidget(scrollAreaWidgetContents_3);
         SendXMLArea = new QGroupBox(ClientTab);
         SendXMLArea->setObjectName(QStringLiteral("SendXMLArea"));
@@ -174,6 +165,8 @@ public:
         menuKonami_Socket_Program->setObjectName(QStringLiteral("menuKonami_Socket_Program"));
         menuv1 = new QMenu(menuBar);
         menuv1->setObjectName(QStringLiteral("menuv1"));
+        menu_Tralyn_Le = new QMenu(menuBar);
+        menu_Tralyn_Le->setObjectName(QStringLiteral("menu_Tralyn_Le"));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -184,6 +177,7 @@ public:
 
         menuBar->addAction(menuKonami_Socket_Program->menuAction());
         menuBar->addAction(menuv1->menuAction());
+        menuBar->addAction(menu_Tralyn_Le->menuAction());
 
         retranslateUi(MainWindow);
 
@@ -214,7 +208,8 @@ public:
         xmlFileNameBox->setText(QString());
         Tabs->setTabText(Tabs->indexOf(ClientTab), QApplication::translate("MainWindow", "Client", Q_NULLPTR));
         menuKonami_Socket_Program->setTitle(QApplication::translate("MainWindow", "Konami Socket Program", Q_NULLPTR));
-        menuv1->setTitle(QApplication::translate("MainWindow", "v1", Q_NULLPTR));
+        menuv1->setTitle(QApplication::translate("MainWindow", ".v1", Q_NULLPTR));
+        menu_Tralyn_Le->setTitle(QApplication::translate("MainWindow", "- Tralyn Le", Q_NULLPTR));
     } // retranslateUi
 
 };

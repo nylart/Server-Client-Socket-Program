@@ -26,11 +26,16 @@ void XMLProcessor::run() {
     }
     else {
         // The xmlByteArray does not have data
-        logger.ThrowError(InvalidXML);
+        WriteToUI(INVALID_XML_ERROR);
     }
 
     // Manually emit a signal with the commands
     emit Result(commands);
+}
+
+// Purpose: Emit a signal that will update the UI's Server Text area to display the message
+void XMLProcessor::WriteToUI(QString msg){
+    emit updateServerText(msg);
 }
 
 // Purpose: Save the xml byte array to this class
@@ -64,7 +69,7 @@ bool XMLProcessor::IsValidXML() {
         return validator.validate(&buffer);
     }
     else {
-        logger.ThrowError(Schema);
+        WriteToUI(SCHEMA_ERROR);
     }
 
     return false;

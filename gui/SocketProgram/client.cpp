@@ -1,4 +1,5 @@
 #include "client.h"
+#include "global.h"
 
 Client::Client(QObject *parent) : QObject(parent)
 {
@@ -7,7 +8,7 @@ Client::Client(QObject *parent) : QObject(parent)
 
 // Purpose: Start the socket and connect to the passed IP Address and port
 void Client::StartSocket(QString ipAddress, quint16 port) {
-    logger.WriteToUIClient("Connecting to " + ipAddress + ":" + QString::number(port));
+    WriteToUI("Connecting to " + ipAddress + ":" + QString::number(port));
 
     socket->connectToHost(ipAddress, port);
 
@@ -18,20 +19,25 @@ void Client::StartSocket(QString ipAddress, quint16 port) {
         connect(socket, SIGNAL(bytesWritten(qint64)), this, SLOT(bytesWritten(qint64)));
     }
     else
-        logger.ThrowError(SocketConnect);
+        WriteToUI(SOCKET_CONNECTION_ERROR);
+}
+
+// Purpose: Emit the passed message to the UI's Client text area
+void Client::WriteToUI(QString msg){
+    emit updateClientText(msg);
 }
 
 void Client::connected() {
-   logger.WriteToUIClient("Connected to socket.");
+   WriteToUI("Connected to socket.");
 }
 
 void Client::disconnected() {
-   logger.WriteToUIClient("Disconnected from socket");
+   WriteToUI("Disconnected from socket");
 }
 
 // Purpose: Output the XML data.
 void Client::readyRead() {
-    logger.WriteToUIClient(socket->readAll());
+    WriteToUI(socket->readAll());
 }
 
 // Purpose: Write the XML to the socket if the socket is open.
@@ -47,6 +53,6 @@ bool Client::SendXML(QByteArray xmlBytes) {
 
 // Purpose: On Complete, notify that the XML sending was a success.
 void Client::bytesWritten(qint64 bytes) {
-    logger.WriteToUIClient("XML has successfully been sent to server");
+    WriteToUI("XML has successfully been sent to server");
 }
 

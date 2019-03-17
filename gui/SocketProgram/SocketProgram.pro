@@ -29,7 +29,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    logoutput.cpp \
     server.cpp \
     validator.cpp \
     receiver.cpp \
@@ -38,7 +37,6 @@ SOURCES += \
 
 HEADERS += \
         mainwindow.h \
-    logoutput.h \
     global.h \
     server.h \
     validator.h \

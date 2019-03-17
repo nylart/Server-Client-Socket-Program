@@ -6,7 +6,6 @@
 #include <QCoreApplication>
 #include <QXmlStreamReader>
 #include <QFile>
-#include "logoutput.h"
 
 class Validator : public QObject
 {
@@ -24,7 +23,6 @@ signals:
 public slots:
 
 private:
-    LogOutput logger;
 };
 
 #endif // VALIDATOR_H

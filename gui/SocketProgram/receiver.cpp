@@ -20,10 +20,16 @@ void Receiver::ConnectSocket(int socketDescriptor) {
     socket->setSocketDescriptor(socketDescriptor);
 }
 
+// Purpose: Emit a signal that will update the UI's Server Text area to display the message
+void Receiver::WriteToUI(QString msg){
+    emit updateServerText(msg);
+}
+
 // Purpose: This signal is emitted after connectToHost() has been called and a connection has been successfully established.
 void Receiver::connected() {
-    logger.WriteToUIServer("Receiver is connected to the socket.");
+    WriteToUI("Receiver is connected to the socket.");
 }
+
 
 // Purpose: This signal is emitted when the socket has been disconnected. We should also
 // delete this Receiver object since it is no longer being used.
@@ -31,7 +37,7 @@ void Receiver::connected() {
 // Thought: I thought it'd be best to delete the object here when we know that it was disconnected.
 // Additionally, by using deleteLater() it will be safe if this signal happened to occur more than once.
 void Receiver::disconnected() {
-    logger.Write("Receiver is disconnected from the socket");
+    WriteToUI("Receiver is disconnected from the socket");
     deleteLater();
 }
 
@@ -57,6 +63,7 @@ void Receiver::readyRead() {
     QThreadPool::globalInstance()->start(xmlProcessor);
 }
 
+
 // Purpose: When the reading of the xml has completed, write the number of bytes written to the device
 // and output the response to an output file and to the stream
 //
@@ -71,7 +78,7 @@ void Receiver::XMLComplete(QByteArray commands) {
     QFile file("OutputXML.xml");
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)){
         file.close();
-        logger.WriteToUIServer("Cannot open file for writing");
+        WriteToUI("Cannot open file for writing");
         return;
     }
 
@@ -114,7 +121,7 @@ void Receiver::XMLComplete(QByteArray commands) {
     out << document.toString();
 
     // Parse the command and display it to the console along with any data rows
-    logger.WriteToUIServer("=== Received ===");
-    logger.WriteToUIServer(document.toString());
-    logger.WriteToUIServer("=== End Received ===");
+    WriteToUI("=== Received ===");
+    WriteToUI(document.toString());
+    WriteToUI("=== End Received ===");
 }

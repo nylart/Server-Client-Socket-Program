@@ -8,7 +8,6 @@
 #include <QXmlStreamReader>
 #include <QDebug>
 #include <QBuffer>
-#include "logoutput.h"
 
 class XMLProcessor : public QObject, public QRunnable
 {
@@ -22,12 +21,14 @@ public:
 
 signals:
     void Result(QByteArray byteArray);
+    void updateServerText(QString message);
+
+protected:
+    void WriteToUI(QString msg);
 
 private:
     // holds the xml
     QByteArray xmlByteArray;
-
-    LogOutput logger;
 
 };
 

@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QTcpSocket>
-#include "logoutput.h"
 
 class Client : public QObject
 {
@@ -14,7 +13,7 @@ public:
     bool SendXML(QByteArray xmlBytes);
 
 signals:
-
+    void updateClientText(QString message);
 
 public slots:
     void connected();
@@ -22,9 +21,11 @@ public slots:
     void readyRead();
     void bytesWritten(qint64 bytes);
 
+protected:
+    void WriteToUI(QString msg);
+
 private:
     QTcpSocket *socket;
-    LogOutput logger;
 
 };
 

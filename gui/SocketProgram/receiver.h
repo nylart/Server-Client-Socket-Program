@@ -9,9 +9,6 @@
 #include <QDomDocument>
 #include <QTextStream>
 #include <QFile>
-
-#include "logoutput.h"
-
 class Receiver : public QObject
 {
     Q_OBJECT
@@ -20,6 +17,7 @@ public:
     void ConnectSocket(int socketDescriptor);
 
 signals:
+    void updateServerText(QString message);
 
 public slots:
     void connected();
@@ -27,9 +25,11 @@ public slots:
     void readyRead();
     void XMLComplete(QByteArray commands);
 
+protected:
+    void WriteToUI(QString msg);
+
 private:
     QTcpSocket *socket;
-    LogOutput logger;
 };
 
 #endif // RECEIVER_H

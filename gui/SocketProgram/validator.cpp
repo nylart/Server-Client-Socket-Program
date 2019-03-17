@@ -1,6 +1,5 @@
 #include "validator.h"
 #include "global.h"
-#include "logoutput.h"
 
 Validator::Validator(QObject *parent) : QObject(parent)
 {

@@ -3,7 +3,6 @@
 
 #include <QObject>
 #include <QTcpServer>
-#include "logoutput.h"
 
 class Server : public QTcpServer
 {
@@ -12,9 +11,15 @@ public:
     Server();
     void StartServer(QString ipAddress, quint16 port);
 
+signals:
+    void updateServerText(QString message);
+
+protected slots:
+        void WriteToUI(QString msg);
+
 protected:
     void incomingConnection(qintptr socketDescriptor);
-    LogOutput logger;
+
 };
 
 #endif // SERVER_H

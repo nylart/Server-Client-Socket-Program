@@ -52,13 +52,11 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../SocketProgram/main.cpp \
 		../SocketProgram/mainwindow.cpp \
-		../SocketProgram/logoutput.cpp \
 		../SocketProgram/server.cpp \
 		../SocketProgram/validator.cpp \
 		../SocketProgram/receiver.cpp \
 		../SocketProgram/xmlprocessor.cpp \
 		../SocketProgram/client.cpp moc_mainwindow.cpp \
-		moc_logoutput.cpp \
 		moc_server.cpp \
 		moc_validator.cpp \
 		moc_receiver.cpp \
@@ -66,14 +64,12 @@ SOURCES       = ../SocketProgram/main.cpp \
 		moc_client.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
-		logoutput.o \
 		server.o \
 		validator.o \
 		receiver.o \
 		xmlprocessor.o \
 		client.o \
 		moc_mainwindow.o \
-		moc_logoutput.o \
 		moc_server.o \
 		moc_validator.o \
 		moc_receiver.o \
@@ -155,7 +151,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/yacc.prf \
 		/usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/lex.prf \
 		../SocketProgram/SocketProgram.pro ../SocketProgram/mainwindow.h \
-		../SocketProgram/logoutput.h \
 		../SocketProgram/global.h \
 		../SocketProgram/server.h \
 		../SocketProgram/validator.h \
@@ -163,7 +158,6 @@ DIST          = /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/spec_pre.prf \
 		../SocketProgram/xmlprocessor.h \
 		../SocketProgram/client.h ../SocketProgram/main.cpp \
 		../SocketProgram/mainwindow.cpp \
-		../SocketProgram/logoutput.cpp \
 		../SocketProgram/server.cpp \
 		../SocketProgram/validator.cpp \
 		../SocketProgram/receiver.cpp \
@@ -360,8 +354,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../SocketProgram/mainwindow.h ../SocketProgram/logoutput.h ../SocketProgram/global.h ../SocketProgram/server.h ../SocketProgram/validator.h ../SocketProgram/receiver.h ../SocketProgram/xmlprocessor.h ../SocketProgram/client.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../SocketProgram/main.cpp ../SocketProgram/mainwindow.cpp ../SocketProgram/logoutput.cpp ../SocketProgram/server.cpp ../SocketProgram/validator.cpp ../SocketProgram/receiver.cpp ../SocketProgram/xmlprocessor.cpp ../SocketProgram/client.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../SocketProgram/mainwindow.h ../SocketProgram/global.h ../SocketProgram/server.h ../SocketProgram/validator.h ../SocketProgram/receiver.h ../SocketProgram/xmlprocessor.h ../SocketProgram/client.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../SocketProgram/main.cpp ../SocketProgram/mainwindow.cpp ../SocketProgram/server.cpp ../SocketProgram/validator.cpp ../SocketProgram/receiver.cpp ../SocketProgram/xmlprocessor.cpp ../SocketProgram/client.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../SocketProgram/mainwindow.ui $(DISTDIR)/
 
 
@@ -394,11 +388,10 @@ compiler_moc_predefs_clean:
 moc_predefs.h: /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 	g++ -pipe -g -Wall -W -dM -E -o moc_predefs.h /usr/lib/x86_64-linux-gnu/qt5/mkspecs/features/data/dummy.cpp
 
-compiler_moc_header_make_all: moc_mainwindow.cpp moc_logoutput.cpp moc_server.cpp moc_validator.cpp moc_receiver.cpp moc_xmlprocessor.cpp moc_client.cpp
+compiler_moc_header_make_all: moc_mainwindow.cpp moc_server.cpp moc_validator.cpp moc_receiver.cpp moc_xmlprocessor.cpp moc_client.cpp
 compiler_moc_header_clean:
-	-$(DEL_FILE) moc_mainwindow.cpp moc_logoutput.cpp moc_server.cpp moc_validator.cpp moc_receiver.cpp moc_xmlprocessor.cpp moc_client.cpp
-moc_mainwindow.cpp: ../SocketProgram/logoutput.h \
-		../SocketProgram/global.h \
+	-$(DEL_FILE) moc_mainwindow.cpp moc_server.cpp moc_validator.cpp moc_receiver.cpp moc_xmlprocessor.cpp moc_client.cpp
+moc_mainwindow.cpp: ../SocketProgram/global.h \
 		../SocketProgram/server.h \
 		../SocketProgram/validator.h \
 		../SocketProgram/client.h \
@@ -407,43 +400,27 @@ moc_mainwindow.cpp: ../SocketProgram/logoutput.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/gui/SocketProgram -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtXmlPatterns -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../SocketProgram/mainwindow.h -o moc_mainwindow.cpp
 
-moc_logoutput.cpp: ../SocketProgram/global.h \
-		../SocketProgram/logoutput.h \
-		moc_predefs.h \
-		/usr/lib/qt5/bin/moc
-	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/gui/SocketProgram -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtXmlPatterns -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../SocketProgram/logoutput.h -o moc_logoutput.cpp
-
-moc_server.cpp: ../SocketProgram/logoutput.h \
-		../SocketProgram/global.h \
-		../SocketProgram/server.h \
+moc_server.cpp: ../SocketProgram/server.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/gui/SocketProgram -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtXmlPatterns -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../SocketProgram/server.h -o moc_server.cpp
 
-moc_validator.cpp: ../SocketProgram/logoutput.h \
-		../SocketProgram/global.h \
-		../SocketProgram/validator.h \
+moc_validator.cpp: ../SocketProgram/validator.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/gui/SocketProgram -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtXmlPatterns -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../SocketProgram/validator.h -o moc_validator.cpp
 
-moc_receiver.cpp: ../SocketProgram/logoutput.h \
-		../SocketProgram/global.h \
-		../SocketProgram/receiver.h \
+moc_receiver.cpp: ../SocketProgram/receiver.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/gui/SocketProgram -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtXmlPatterns -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../SocketProgram/receiver.h -o moc_receiver.cpp
 
-moc_xmlprocessor.cpp: ../SocketProgram/logoutput.h \
-		../SocketProgram/global.h \
-		../SocketProgram/xmlprocessor.h \
+moc_xmlprocessor.cpp: ../SocketProgram/xmlprocessor.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/gui/SocketProgram -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtXmlPatterns -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../SocketProgram/xmlprocessor.h -o moc_xmlprocessor.cpp
 
-moc_client.cpp: ../SocketProgram/logoutput.h \
-		../SocketProgram/global.h \
-		../SocketProgram/client.h \
+moc_client.cpp: ../SocketProgram/client.h \
 		moc_predefs.h \
 		/usr/lib/qt5/bin/moc
 	/usr/lib/qt5/bin/moc $(DEFINES) --include ./moc_predefs.h -I/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++ -I/home/parallels/Documents/Konami-Socket-Program/gui/SocketProgram -I/usr/include/x86_64-linux-gnu/qt5 -I/usr/include/x86_64-linux-gnu/qt5/QtWidgets -I/usr/include/x86_64-linux-gnu/qt5/QtGui -I/usr/include/x86_64-linux-gnu/qt5/QtXmlPatterns -I/usr/include/x86_64-linux-gnu/qt5/QtNetwork -I/usr/include/x86_64-linux-gnu/qt5/QtXml -I/usr/include/x86_64-linux-gnu/qt5/QtCore -I. -I/usr/include/c++/7 -I/usr/include/x86_64-linux-gnu/c++/7 -I/usr/include/c++/7/backward -I/usr/lib/gcc/x86_64-linux-gnu/7/include -I/usr/local/include -I/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed -I/usr/include/x86_64-linux-gnu -I/usr/include ../SocketProgram/client.h -o moc_client.cpp
@@ -468,7 +445,6 @@ compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_ui
 ####### Compile
 
 main.o: ../SocketProgram/main.cpp ../SocketProgram/mainwindow.h \
-		../SocketProgram/logoutput.h \
 		../SocketProgram/global.h \
 		../SocketProgram/server.h \
 		../SocketProgram/validator.h \
@@ -476,7 +452,6 @@ main.o: ../SocketProgram/main.cpp ../SocketProgram/mainwindow.h \
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../SocketProgram/main.cpp
 
 mainwindow.o: ../SocketProgram/mainwindow.cpp ../SocketProgram/mainwindow.h \
-		../SocketProgram/logoutput.h \
 		../SocketProgram/global.h \
 		../SocketProgram/server.h \
 		../SocketProgram/validator.h \
@@ -484,43 +459,29 @@ mainwindow.o: ../SocketProgram/mainwindow.cpp ../SocketProgram/mainwindow.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../SocketProgram/mainwindow.cpp
 
-logoutput.o: ../SocketProgram/logoutput.cpp ../SocketProgram/logoutput.h \
-		../SocketProgram/global.h
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o logoutput.o ../SocketProgram/logoutput.cpp
-
 server.o: ../SocketProgram/server.cpp ../SocketProgram/server.h \
-		../SocketProgram/logoutput.h \
-		../SocketProgram/global.h \
 		../SocketProgram/receiver.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o server.o ../SocketProgram/server.cpp
 
 validator.o: ../SocketProgram/validator.cpp ../SocketProgram/validator.h \
-		../SocketProgram/logoutput.h \
 		../SocketProgram/global.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o validator.o ../SocketProgram/validator.cpp
 
 receiver.o: ../SocketProgram/receiver.cpp ../SocketProgram/receiver.h \
-		../SocketProgram/logoutput.h \
-		../SocketProgram/global.h \
-		../SocketProgram/xmlprocessor.h
+		../SocketProgram/xmlprocessor.h \
+		../SocketProgram/global.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o receiver.o ../SocketProgram/receiver.cpp
 
 xmlprocessor.o: ../SocketProgram/xmlprocessor.cpp ../SocketProgram/xmlprocessor.h \
-		../SocketProgram/logoutput.h \
-		../SocketProgram/global.h \
-		../SocketProgram/validator.h
+		../SocketProgram/validator.h \
+		../SocketProgram/global.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o xmlprocessor.o ../SocketProgram/xmlprocessor.cpp
 
-client.o: ../SocketProgram/client.cpp ../SocketProgram/client.h \
-		../SocketProgram/logoutput.h \
-		../SocketProgram/global.h
+client.o: ../SocketProgram/client.cpp ../SocketProgram/client.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o client.o ../SocketProgram/client.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
-
-moc_logoutput.o: moc_logoutput.cpp 
-	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_logoutput.o moc_logoutput.cpp
 
 moc_server.o: moc_server.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_server.o moc_server.cpp

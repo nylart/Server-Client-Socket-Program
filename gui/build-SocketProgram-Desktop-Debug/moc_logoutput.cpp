@@ -22,7 +22,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_LogOutput_t {
     QByteArrayData data[5];
-    char stringdata0[63];
+    char stringdata0[53];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,14 +32,14 @@ struct qt_meta_stringdata_LogOutput_t {
 static const qt_meta_stringdata_LogOutput_t qt_meta_stringdata_LogOutput = {
     {
 QT_MOC_LITERAL(0, 0, 9), // "LogOutput"
-QT_MOC_LITERAL(1, 10, 21), // "SendMessageToUIClient"
-QT_MOC_LITERAL(2, 32, 0), // ""
-QT_MOC_LITERAL(3, 33, 7), // "message"
-QT_MOC_LITERAL(4, 41, 21) // "SendMessageToUIServer"
+QT_MOC_LITERAL(1, 10, 16), // "updateClientText"
+QT_MOC_LITERAL(2, 27, 0), // ""
+QT_MOC_LITERAL(3, 28, 7), // "message"
+QT_MOC_LITERAL(4, 36, 16) // "updateServerText"
 
     },
-    "LogOutput\0SendMessageToUIClient\0\0"
-    "message\0SendMessageToUIServer"
+    "LogOutput\0updateClientText\0\0message\0"
+    "updateServerText"
 };
 #undef QT_MOC_LITERAL
 
@@ -73,22 +73,22 @@ void LogOutput::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         LogOutput *_t = static_cast<LogOutput *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->SendMessageToUIClient((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 1: _t->SendMessageToUIServer((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 0: _t->updateClientText((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 1: _t->updateServerText((*reinterpret_cast< QString(*)>(_a[1]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
             typedef void (LogOutput::*_t)(QString );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&LogOutput::SendMessageToUIClient)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&LogOutput::updateClientText)) {
                 *result = 0;
                 return;
             }
         }
         {
             typedef void (LogOutput::*_t)(QString );
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&LogOutput::SendMessageToUIServer)) {
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&LogOutput::updateServerText)) {
                 *result = 1;
                 return;
             }
@@ -133,14 +133,14 @@ int LogOutput::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void LogOutput::SendMessageToUIClient(QString _t1)
+void LogOutput::updateClientText(QString _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 
 // SIGNAL 1
-void LogOutput::SendMessageToUIServer(QString _t1)
+void LogOutput::updateServerText(QString _t1)
 {
     void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
