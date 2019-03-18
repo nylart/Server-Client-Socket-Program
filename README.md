@@ -19,21 +19,29 @@ Note: I'm assuming you're in the "gui" folder already.
 
 1. Run the Program
     a) Open a new terminal
+    
     b) Navigate to the directory: build-SocketProgram-Desktop-Release
        Note: You may need to run make in this directory in order to execute the program.
+       
     c) To start the program, type the following in the terminal: 
             ./SocketProgram
+            
     d) The GUI program should now be showing and should be in the "Server" tab.
 
 2. Start the Server
     a) If you want to start the server with the default IP address and port, then make sure the radio button has "Default" checked, then press "Start Server". 
+    
     b) If you want to start the server with a custom IP address and port, then click the "Custom" radio button then type the desired IP address and port in the fields. Then press "Start Server".
 
 3. Start the Client
     a) If the server is already running, click the "Client" tab.
+    
     b) If you want to start the client with the default IP address and port, then make sure the radio button has "Default" checked. 
+    
     c) If you want to start the client with a custom IP address and port, then click the "Custom" radio button then type the desired IP address and port in the fields.
+    
     d) Click the "Browse XML" button to select a XML file.
+    
     e) Press "Start Client".
 
 Note: You can click back and forth between the Server and Client tabs to see the output.
