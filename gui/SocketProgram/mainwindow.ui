@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Konami Socket Program</string>
+   <string>Server-Client Socket Program</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QTabWidget" name="Tabs">
@@ -337,18 +337,19 @@
    </property>
    <widget class="QMenu" name="menuKonami_Socket_Program">
     <property name="title">
-     <string>Konami Socket Program</string>
+     <string>v1</string>
     </property>
    </widget>
    <widget class="QMenu" name="menuv1">
     <property name="title">
-     <string>v1</string>
+     <string>- Tralyn Le</string>
     </property>
    </widget>
    <widget class="QMenu" name="menu_Tralyn_Le">
     <property name="title">
-     <string>- Tralyn Le</string>
+     <string> </string>
     </property>
+    <addaction name="separator"/>
    </widget>
    <addaction name="menuKonami_Socket_Program"/>
    <addaction name="menuv1"/>

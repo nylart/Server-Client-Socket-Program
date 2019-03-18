@@ -178,6 +178,7 @@ public:
         menuBar->addAction(menuKonami_Socket_Program->menuAction());
         menuBar->addAction(menuv1->menuAction());
         menuBar->addAction(menu_Tralyn_Le->menuAction());
+        menu_Tralyn_Le->addSeparator();
 
         retranslateUi(MainWindow);
 
@@ -189,7 +190,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Konami Socket Program", Q_NULLPTR));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Server-Client Socket Program", Q_NULLPTR));
         DesiredConnectionBox->setTitle(QApplication::translate("MainWindow", "Desired Connection", Q_NULLPTR));
         DefaultRadioButton_Server->setText(QApplication::translate("MainWindow", "Default", Q_NULLPTR));
         CustomRadioButton_Server->setText(QApplication::translate("MainWindow", "Custom", Q_NULLPTR));
@@ -207,9 +208,9 @@ public:
         BrowseXMLButton->setText(QApplication::translate("MainWindow", "Browse XML", Q_NULLPTR));
         xmlFileNameBox->setText(QString());
         Tabs->setTabText(Tabs->indexOf(ClientTab), QApplication::translate("MainWindow", "Client", Q_NULLPTR));
-        menuKonami_Socket_Program->setTitle(QApplication::translate("MainWindow", "Konami Socket Program", Q_NULLPTR));
-        menuv1->setTitle(QApplication::translate("MainWindow", "v1", Q_NULLPTR));
-        menu_Tralyn_Le->setTitle(QApplication::translate("MainWindow", "- Tralyn Le", Q_NULLPTR));
+        menuKonami_Socket_Program->setTitle(QApplication::translate("MainWindow", "v1", Q_NULLPTR));
+        menuv1->setTitle(QApplication::translate("MainWindow", "- Tralyn Le", Q_NULLPTR));
+        menu_Tralyn_Le->setTitle(QString());
     } // retranslateUi
 
 };
