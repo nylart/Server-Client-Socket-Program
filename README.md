@@ -1,8 +1,7 @@
-# Socket Programming Project GUI - Tralyn Le
+# Socket Programming Project - Tralyn Le
 
 ## Purpose
-The purpose of this project is to utilize server and client communication by sending XML data
-via sockets. 
+The purpose of this project is to utilize server and client communication by sending XML data via sockets. 
 
 ## Background
 This project is a socket programming coding assignment given from a company. If you're reading this readme and are wondering why I'm mentioning submissions and etc. it is mainly my thought process and dialogue for the company.
@@ -10,6 +9,9 @@ This project is a socket programming coding assignment given from a company. If 
 ## Before starting...
 Please note there are two versions of this program, the console version and the GUI version. The console version utilizes the terminal and has the base architecture and source files for how I initially designed this program. The GUI version utilizes most of the same files but has an user-friendly interface and outputs in the program and not the terminal.
 
+I recommend using the GUI.
+
+IMPORTANT: MUST BE USING A LINUX MACHINE TO RUN THIS PROGRAM
 
 ## How to Run the GUI
 
