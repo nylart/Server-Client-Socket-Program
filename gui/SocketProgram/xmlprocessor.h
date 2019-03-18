@@ -18,6 +18,7 @@ public:
     void SaveXMLBytes(QByteArray xmlBytes);
     QString GetCommand();
     bool IsValidXML();
+    bool IsValidXML(QByteArray xmlBytes);
 
 signals:
     void Result(QByteArray byteArray);

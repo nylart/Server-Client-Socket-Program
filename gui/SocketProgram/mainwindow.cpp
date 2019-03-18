@@ -204,18 +204,3 @@ bool MainWindow::CheckCustomFields(QString type){
 }
 
 
-// ================================================================================ Unit Test Related
-
-void MainWindow::on_UnitTestStartButton_clicked(){
-    //qDebug() << "Unit test button clicked";
-    //tests.run();
-}
-
-void MainWindow::on_UnitTestStopButton_clicked(){
-
-}
-
-void MainWindow::do_UpdateProgressBar(int value){
-    ui->UnitTestProgressBar->setValue(value);
-}
-

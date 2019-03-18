@@ -75,6 +75,27 @@ bool XMLProcessor::IsValidXML() {
     return false;
 }
 
+// Purpose: Check the passed xml against the xml schema to return whether or not it is a valid xml.
+// Specifically used for testing purposes.
+bool XMLProcessor::IsValidXML(QByteArray xmlBytes) {
+    QUrl schemaFile("file:xmlSchema.xsd");
+    QBuffer buffer(&xmlBytes);
+    buffer.open(QIODevice::ReadOnly);
+
+    QXmlSchema schema;
+    schema.load(schemaFile);
+
+    if(schema.isValid()) {
+        QXmlSchemaValidator validator(schema);
+        return validator.validate(&buffer);
+    }
+    else {
+        WriteToUI(SCHEMA_ERROR);
+    }
+
+    return false;
+}
+
 // Purpose: Parse through the xmlBytes and return the command from the xml.
 //
 // Thought: Decided to use the QXmlStreamReader because the code itself drives

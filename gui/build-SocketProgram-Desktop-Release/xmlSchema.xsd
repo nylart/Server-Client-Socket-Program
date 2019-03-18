@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+   <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+      <!-- XML Schema Generated from XML Document on Thu Mar 14 2019 18:30:07 GMT-0700 (Pacific Daylight Time) -->
+      <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
+         <xs:element name="Message">
+               <xs:complexType>
+                     <xs:sequence>
+                           <xs:element name="Command" type="xs:string"></xs:element>
+                           <xs:element name="Data">
+                                 <xs:complexType>
+                                       <xs:sequence>
+                                             <xs:element name="Row" maxOccurs="unbounded">
+                                                   <xs:complexType>
+                                                         <xs:sequence>
+                                                               <xs:element name="Description" type="xs:string"></xs:element>
+                                                               <xs:element name="Value" type="xs:string"></xs:element>
+                                                         </xs:sequence>
+                                                   </xs:complexType>
+                                             </xs:element>
+                                       </xs:sequence>
+                                 </xs:complexType>
+                           </xs:element>
+                     </xs:sequence>
+               </xs:complexType>
+         </xs:element>
+   </xs:schema>
