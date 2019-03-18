@@ -18,6 +18,7 @@ IMPORTANT: MUST BE USING A LINUX MACHINE TO RUN THIS PROGRAM
 Note: I'm assuming you're in the "gui" folder already.
 
 1. Run the Program
+
     a) Open a new terminal
     
     b) Navigate to the directory: build-SocketProgram-Desktop-Release
