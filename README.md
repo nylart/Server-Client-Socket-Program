@@ -30,11 +30,13 @@ Note: I'm assuming you're in the "gui" folder already.
     d) The GUI program should now be showing and should be in the "Server" tab.
 
 2. Start the Server
+
     a) If you want to start the server with the default IP address and port, then make sure the radio button has "Default" checked, then press "Start Server". 
     
     b) If you want to start the server with a custom IP address and port, then click the "Custom" radio button then type the desired IP address and port in the fields. Then press "Start Server".
 
 3. Start the Client
+
     a) If the server is already running, click the "Client" tab.
     
     b) If you want to start the client with the default IP address and port, then make sure the radio button has "Default" checked. 
